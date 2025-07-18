@@ -2,53 +2,45 @@ import streamlit as st
 import os
 import sys
 from utils.sqlite_config import create_posts_table
-import streamlit as st
-import os
 from utils.database import create_user, get_user_by_name
-
-
-# Call this once to ensure table exists
-create_posts_table()
+from utils.timer import get_remaining_time
+from utils.spotlight import rotate_spotlight
 
 # 🔧 Ensure local modules are discoverable
 sys.path.append(os.path.dirname(__file__))
 
-# ✅ Import local utilities
-# from utils.database import init_db
-from utils.timer import get_remaining_time
-from utils.spotlight import rotate_spotlight
+# ✅ Create posts table if not exists
+create_posts_table()
 
-# ✅ Initialize database (only first time needed)
-# init_db()
-
-# ✅ Automatically rotate spotlight user if 24hrs passed
+# ✅ Rotate spotlight user if 24 hrs passed
 rotate_spotlight()
 
-# ✅ Page settings
+# ✅ Streamlit Page Configuration
 st.set_page_config(
     page_title="MainStage",
     page_icon="🎭",
     layout="wide"
 )
 
-# ✅ Logo
-st.image("D:\\mainstage_app_structure\\mainstage\\assets\\logo.png", width=120)
+# ✅ Load Logo using dynamic path (IMPORTANT FIX)
+current_dir = os.path.dirname(__file__)
+logo_path = os.path.join(current_dir, "assets", "logo.png")
+st.image(logo_path, width=120)
 
 # ✅ Main Title
 st.markdown("<h1 style='color:#FFD700;'>🎭 Welcome to MainStage</h1>", unsafe_allow_html=True)
 
-# ✅ Sidebar Menu 👇👇👇 ADD THIS SECTION
+# ✅ Sidebar Navigation
 st.sidebar.title("📱 MainStage Menu")
 st.sidebar.page_link("pages/1_Home.py", label="🏠 Home")
 st.sidebar.page_link("pages/2_Vote.py", label="🗳️ Vote")
 st.sidebar.page_link("pages/3_Profile.py", label="🧑‍🎤 Profile")
 st.sidebar.page_link("pages/4_Leaderboard.py", label="🏆 Leaderboard")
 
-
-# ✅ Description
+# ✅ App Description
 st.markdown("This is your spotlight moment on the internet – create your profile, vote for others, and shine!")
 
-# ✅ Instructions with style
+# ✅ Instructions Section
 st.markdown("""
 <style>
 .instructions {
@@ -62,30 +54,28 @@ st.markdown("""
 </style>
 <div class='instructions'>
 <ul>
-    <li>✨ instructions :</li>
+    <li>✨ Instructions:</li>
     <li>👤 Go to <b>Profile</b> page and create your identity.</li>
-    <li>🔧 Go to <b>Profile</b> page to edit your identity anytime.</li>
+    <li>🔧 Edit your identity anytime from the <b>Profile</b> page.</li>
     <li>🗳️ Visit <b>Vote</b> to support your favorite profile.</li>
     <li>🌟 The most voted user is crowned the spotlight for 24 hours!</li>
 </ul>
 </div>
 """, unsafe_allow_html=True)
 
-# ✅ Countdown timer
+# ✅ Countdown Timer
 remaining = get_remaining_time()
 st.markdown(f"⏳ Time left until next spotlight: **{remaining}**")
 
+# ✅ Sign In Section
 st.set_page_config(page_title="Sign In", layout="centered")
 st.title("🔐 Sign In & Log In MainStage")
-
 
 if "user" in st.session_state:
     st.success(f"✅ You're already signed in as {st.session_state['user']['name']}")
     st.switch_page("pages/1_Home.py")
 
-
 username = st.text_input("👤 Enter your name")
-
 
 user = get_user_by_name(username.strip()) if username.strip() else None
 
@@ -108,7 +98,7 @@ else:
         if create_new == "Yes":
             bio = st.text_area("📝 Enter your short bio")
             image = st.file_uploader("📸 Upload profile picture (optional)", type=["png", "jpg", "jpeg"])
-            
+
             if st.button("🚀 Create Account"):
                 image_path = None
                 if image:
