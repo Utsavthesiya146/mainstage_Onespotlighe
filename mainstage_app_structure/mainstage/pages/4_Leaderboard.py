@@ -35,7 +35,7 @@ if leaders:
                 st.image(image_url, width=60)
             else:
                 # 🖼️ Show app logo if user has no image
-                st.image("D:\\mainstage_app_structure\\mainstage\\assets\\logo.png", width=60)
+                st.image("D:\\mainstage_app_structure\\mainstage\\assets\logo.png", width=60)
 
         with col2:
             st.markdown(f"### {i}. {name}")
