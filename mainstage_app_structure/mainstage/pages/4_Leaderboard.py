@@ -22,10 +22,6 @@ def get_leaderboard():
 st.set_page_config(page_title="🏆 Leaderboard", layout="centered")
 st.title("🏆 MainStage Leaderboard")
 
-# ✅ Dynamic path to logo
-current_dir = os.path.dirname(__file__)
-logo_path = os.path.join(current_dir, "..", "assets", "logo.png")
-
 # Load leaders
 leaders = get_leaderboard()
 
@@ -39,7 +35,7 @@ if leaders:
                 st.image(image_url, width=60)
             else:
                 # 🖼️ Show app logo if user has no image
-                st.image(logo_path, width=60)
+                st.image("D:\\mainstage_app_structure\\mainstage\\assets\\logo.png", width=60)
 
         with col2:
             st.markdown(f"### {i}. {name}")
