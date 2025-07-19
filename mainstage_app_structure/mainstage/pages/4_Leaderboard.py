@@ -87,7 +87,7 @@ if leaders:
             else:
                 # 🖼️ Show app logo if user has no image
                 if os.path.exists(logo_path):
-                    st.image(D:\mainstage_app_structure\mainstage\assets\logo.png, width=60)
+                    st.image("assets/logo.png", width=60)
                 else:
                     st.warning("⚠️ Logo image not found.")
 
