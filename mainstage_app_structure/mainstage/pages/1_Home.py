@@ -2,7 +2,7 @@
 # import os
 # from utils.database import get_spotlight_user, get_all_users
 
-# st.title("🌟 Today's Spotlight")
+# st.title("🌟 Today's Spotlight/"Hero"")
 
 # user_id, _ = get_spotlight_user()
 # users = get_all_users()
